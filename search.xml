@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<search>
+  <entry>
+    <title>LeetCode 反转链表</title>
+    <url>/2020/03/02/leetcode-206-reverse-list/</url>
+    <content><![CDATA[<h3 id="反转一个链表"><a href="#反转一个链表" class="headerlink" title="反转一个链表"></a>反转一个链表</h3><blockquote>
+<p>输入: 1-&gt;2-&gt;3-&gt;4-&gt;5-&gt;NULL<br>输出: 5-&gt;4-&gt;3-&gt;2-&gt;1-&gt;NULL</p>
+</blockquote>
+<p>进阶： 迭代|递归反转链表 </p>
+<a id="more"></a>
+
+<p>前置条件：链表数据结构</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">//前置条件</span></span></pre></td></tr><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ListNode</span> </span>&#123;</span></pre></td></tr><tr><td class="code"><pre><span class="line">    <span class="keyword">public</span> <span class="keyword">int</span> val;</span></pre></td></tr><tr><td class="code"><pre><span class="line">    <span class="keyword">public</span> ListNode next;</span></pre></td></tr><tr><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="code"><pre><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">ListNode</span><span class="params">(<span class="keyword">int</span> x)</span> </span>&#123;</span></pre></td></tr><tr><td class="code"><pre><span class="line">        val = x;</span></pre></td></tr><tr><td class="code"><pre><span class="line">    &#125;</span></pre></td></tr><tr><td class="code"><pre><span class="line">&#125;</span></pre></td></tr></table></figure>
+
+
+<h4 id="解法一：暴力解法"><a href="#解法一：暴力解法" class="headerlink" title="解法一：暴力解法"></a>解法一：暴力解法</h4><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">//解法</span></span></pre></td></tr><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> ListNode <span class="title">reverseList</span><span class="params">(ListNode head)</span> </span>&#123;</span></pre></td></tr><tr><td class="code"><pre><span class="line">    ListNode node = <span class="keyword">null</span>;</span></pre></td></tr><tr><td class="code"><pre><span class="line">    <span class="keyword">while</span> (head != <span class="keyword">null</span>) &#123;</span></pre></td></tr><tr><td class="code"><pre><span class="line">        ListNode temp = head.next;</span></pre></td></tr><tr><td class="code"><pre><span class="line">        head.next = node;</span></pre></td></tr><tr><td class="code"><pre><span class="line">        node = head;</span></pre></td></tr><tr><td class="code"><pre><span class="line">        head = temp;</span></pre></td></tr><tr><td class="code"><pre><span class="line">    &#125;</span></pre></td></tr><tr><td class="code"><pre><span class="line">    <span class="keyword">return</span> node;</span></pre></td></tr><tr><td class="code"><pre><span class="line">&#125;</span></pre></td></tr></table></figure>
+
+<p>解题思路：</p>
+<p>链表反转，简单粗暴的办法就是循环遍历，通过遍历把链表中的元素给记下来，想办法反转他们的指针。步骤如下：</p>
+<ol>
+<li>声明一个空链表，用来存储反转后的链表</li>
+<li>开始遍历给定链表，每次我们都要取出head一个节点，只保留剩余节点，直到head为空。</li>
+<li>因此需要先声明一个临时节点，用于存储当前节点之外的剩余节点</li>
+<li>第一次循环开始，node 为空，head.next 指针指向 link，此时head中实际只存在一个节点，接着就可以把这一个节点交给 node，然后将剩余节点temp全部还给head。此时现状是node中有一个节点，head中少了第一个节点</li>
+<li>第二次循环开始，依然把当前head第一个节点之外的暂存起来。head.next 指向 node，也就实现 原head 第一个和第二个元素反转了，再把这两个整体交给node，剩余节点再次还给head。此时node中有两个节点且实现了反转，head中少了前两个节点。</li>
+<li>重复2和3一样的步骤，直到head中元素全部取出，指向node，就实现了链表反转</li>
+</ol>
+<h4 id="解法二："><a href="#解法二：" class="headerlink" title="解法二："></a>解法二：</h4><p>考虑思路是递归，但是还没想到，待补充！！！</p>
+]]></content>
+      <categories>
+        <category>算法</category>
+      </categories>
+      <tags>
+        <tag>LeetCode</tag>
+      </tags>
+  </entry>
+</search>

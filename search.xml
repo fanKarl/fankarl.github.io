@@ -1,6 +1,41 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>leetcode_merge_array</title>
+    <url>/2020/03/04/leetcode-merge-array/</url>
+    <content><![CDATA[<p>给定两个排序后的数组 A 和 B，其中 A 的末端有足够的缓冲空间容纳 B。 编写一个方法，将 B 合并入 A 并排序。</p>
+<p>初始化 A 和 B 的元素数量分别为 m 和 n。</p>
+<p>示例:</p>
+<p>输入:<br>A = [1,2,3,0,0,0], m = 3<br>B = [2,5,6],       n = 3</p>
+<p>输出: [1,2,2,3,5,6]</p>
+<a id="more"></a>
+
+
+<h4 id="解法一"><a href="#解法一" class="headerlink" title="解法一"></a>解法一</h4><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">merge01</span><span class="params">(<span class="keyword">int</span>[] A, <span class="keyword">int</span> m, <span class="keyword">int</span>[] B, <span class="keyword">int</span> n)</span> </span>&#123;</span></pre></td></tr><tr><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="code"><pre><span class="line">        <span class="keyword">if</span> (n == <span class="number">0</span>) &#123;</span></pre></td></tr><tr><td class="code"><pre><span class="line">            <span class="keyword">return</span>;</span></pre></td></tr><tr><td class="code"><pre><span class="line">        &#125;</span></pre></td></tr><tr><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="code"><pre><span class="line">        <span class="keyword">if</span> (m == <span class="number">0</span>) &#123;</span></pre></td></tr><tr><td class="code"><pre><span class="line">            <span class="keyword">if</span> (n &gt;= <span class="number">0</span>) &#123;</span></pre></td></tr><tr><td class="code"><pre><span class="line">                System.arraycopy(B, <span class="number">0</span>, A, <span class="number">0</span>, n);</span></pre></td></tr><tr><td class="code"><pre><span class="line">            &#125;</span></pre></td></tr><tr><td class="code"><pre><span class="line">            <span class="keyword">return</span>;</span></pre></td></tr><tr><td class="code"><pre><span class="line">        &#125;</span></pre></td></tr><tr><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="code"><pre><span class="line">        <span class="keyword">int</span> stepA = m - <span class="number">1</span>;</span></pre></td></tr><tr><td class="code"><pre><span class="line">        <span class="keyword">int</span> stepB = n - <span class="number">1</span>;</span></pre></td></tr><tr><td class="code"><pre><span class="line">        <span class="keyword">int</span> step = (m + n - <span class="number">1</span>);</span></pre></td></tr><tr><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="code"><pre><span class="line">        <span class="keyword">while</span> (step &gt;= <span class="number">0</span>) &#123;</span></pre></td></tr><tr><td class="code"><pre><span class="line">            <span class="keyword">if</span> (stepB &lt; <span class="number">0</span>) &#123;</span></pre></td></tr><tr><td class="code"><pre><span class="line">                A[step] = A[stepA];</span></pre></td></tr><tr><td class="code"><pre><span class="line">                stepA--;</span></pre></td></tr><tr><td class="code"><pre><span class="line">                step--;</span></pre></td></tr><tr><td class="code"><pre><span class="line">                <span class="keyword">continue</span>;</span></pre></td></tr><tr><td class="code"><pre><span class="line">            &#125;</span></pre></td></tr><tr><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="code"><pre><span class="line">            <span class="keyword">if</span> (stepA &lt; <span class="number">0</span>) &#123;</span></pre></td></tr><tr><td class="code"><pre><span class="line">                A[step] = B[stepB];</span></pre></td></tr><tr><td class="code"><pre><span class="line">                stepB--;</span></pre></td></tr><tr><td class="code"><pre><span class="line">                step--;</span></pre></td></tr><tr><td class="code"><pre><span class="line">                <span class="keyword">continue</span>;</span></pre></td></tr><tr><td class="code"><pre><span class="line">            &#125;</span></pre></td></tr><tr><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="code"><pre><span class="line">            <span class="keyword">if</span> (A[stepA] &gt; B[stepB]) &#123;</span></pre></td></tr><tr><td class="code"><pre><span class="line">                A[step] = A[stepA];</span></pre></td></tr><tr><td class="code"><pre><span class="line">                stepA--;</span></pre></td></tr><tr><td class="code"><pre><span class="line">            &#125; <span class="keyword">else</span> &#123;</span></pre></td></tr><tr><td class="code"><pre><span class="line">                A[step] = B[stepB];</span></pre></td></tr><tr><td class="code"><pre><span class="line">                stepB--;</span></pre></td></tr><tr><td class="code"><pre><span class="line">            &#125;</span></pre></td></tr><tr><td class="code"><pre><span class="line">            step--;</span></pre></td></tr><tr><td class="code"><pre><span class="line">        &#125;</span></pre></td></tr><tr><td class="code"><pre><span class="line">    &#125;</span></pre></td></tr></table></figure>
+
+<p>解题思路</p>
+<p>首先已知条件是 A数组有足够的剩余空间容纳B数组，所以一个很简单的思路就是直接把B数组加入到A数组进行快排，但是因为AB都是有序数组，快排会带来大量的冗余操作。所以考虑优化一下：<br>AB都是已经排序的数组，又已经AB初始化长度，那可以在插入的时候就开始进行比较。思路如下：</p>
+<ol>
+<li>根据m、n计算出AB合并后总长度 m+n</li>
+<li>声明三个指针stepA、stepB、step，分别指向A、B末端，以及合并后A末端</li>
+<li>这一步是关键，根据stepA或者stepB从AB中取出元素进行比较，谁的元素大就把该元素取出来放到step指向位置，同时取出元素的数组指针(stepA 或者 stepB)前移一位,另一个指针不变，step也需要在元素插入后前移一位。</li>
+<li>重复步骤三直到stepA小于0或者stepB小于零，那就把没有取完的数组剩余元素都插入step循环到0为止指向的位置。当step也小于0的时候跳出循环，就完成了AB数组的合并</li>
+</ol>
+<p>PS：</p>
+<ol>
+<li>这里需要考虑边界条件，A或者B为空的时候，以及while循环的跳出条件。</li>
+<li>因为m+n 提供了足够的长度，因此在比较过程中不必担心从A或者B中取出来的元素在插入的过程中会覆盖A中未用到的元素。</li>
+</ol>
+<p>时间复杂度应该是O(n)</p>
+]]></content>
+      <categories>
+        <category>算法</category>
+      </categories>
+      <tags>
+        <tag>LeetCode</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>LeetCode 反转链表</title>
     <url>/2020/03/02/leetcode-206-reverse-list/</url>
     <content><![CDATA[<h3 id="反转一个链表"><a href="#反转一个链表" class="headerlink" title="反转一个链表"></a>反转一个链表</h3><blockquote>

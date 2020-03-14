@@ -3,7 +3,7 @@
   <entry>
     <title>经典排序算法</title>
     <url>/2020/03/11/sort-algorithm/</url>
-    <content><![CDATA[<h3 id="常用排序算法"><a href="#常用排序算法" class="headerlink" title="常用排序算法"></a>常用排序算法</h3><p>已收录：冒泡排序、简单选择排序、简单插入排序、二路归并排序</p>
+    <content><![CDATA[<h3 id="常用排序算法"><a href="#常用排序算法" class="headerlink" title="常用排序算法"></a>常用排序算法</h3><p>已收录：冒泡排序、简单选择排序、简单插入排序、二路归并排序、简单快速排序</p>
 <a id="more"></a>
 
 <p>常用排序算法，要掌握的要点：</p>

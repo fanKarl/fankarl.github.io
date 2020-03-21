@@ -99,7 +99,62 @@
 </ul>
 </li>
 </ul>
-<h5 id="TODO：快速排序也有别的实现思路，以后专门开一篇进行分析"><a href="#TODO：快速排序也有别的实现思路，以后专门开一篇进行分析" class="headerlink" title="TODO：快速排序也有别的实现思路，以后专门开一篇进行分析"></a>TODO：快速排序也有别的实现思路，以后专门开一篇进行分析</h5><h3 id="未完待续"><a href="#未完待续" class="headerlink" title="未完待续"></a>未完待续</h3><h3 id="待补充"><a href="#待补充" class="headerlink" title="待补充"></a>待补充</h3><p>由于理解不透彻暂不记录，但是标记以防以往。</p>
+<h4 id="堆排序"><a href="#堆排序" class="headerlink" title="堆排序"></a>堆排序</h4><p>堆排序（Heapsort）：利用堆数据结构设计的排序算法</p>
+<p>tips：关于堆排序使用时仍然可以利用数组，但是要在脑海中构建出堆的数据结构模型。而构建的模型跟二叉树是一样的，所以可以借用二叉树的一些概念</p>
+<p>实现堆排序必须知道的：</p>
+<ul>
+<li>确定堆中第一个非叶子节点：length/2 -1</li>
+<li>针对每个非叶子节点，他的左右子节点都是 2i+1 和 2i+2</li>
+<li>需要知道堆的两种模型：大顶堆和小顶堆<ul>
+<li>大顶堆：每个节点都大于等于它的左右节点的堆</li>
+<li>小顶堆：每个节点都小于等于它的左右孩子节点的堆</li>
+</ul>
+</li>
+</ul>
+<p>tips： 大顶堆一般用于构建升序序列，小顶堆用于构建降序序列。</p>
+<p>了解了以上节点，可以来看一下实现思路</p>
+<ol>
+<li>首先需要从第一个非叶子节点开始遍历数组，从下到上，从右到左，构建大顶堆</li>
+<li>此时大顶堆根节点就是最大元素，将他与最后一个叶子节点交换位置。</li>
+<li>排除最后一个叶子节点，重新调整大顶堆</li>
+<li>重复步骤2-3直到还剩一个元素为止。此时序列就已经是有序并且升序的了，</li>
+</ol>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">int</span>[] heapSort(<span class="keyword">int</span>[] arrays) &#123;</span></pre></td></tr><tr><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="code"><pre><span class="line">    <span class="keyword">int</span> length = arrays.length;</span></pre></td></tr><tr><td class="code"><pre><span class="line">    <span class="comment">//首先构建大顶堆</span></span></pre></td></tr><tr><td class="code"><pre><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = length / <span class="number">2</span> - <span class="number">1</span>; i &gt;= <span class="number">0</span>; i--) &#123;</span></pre></td></tr><tr><td class="code"><pre><span class="line">        <span class="comment">//找到第一个非叶子节点，下到上，右到左。</span></span></pre></td></tr><tr><td class="code"><pre><span class="line">        <span class="comment">// 可以自行画图找规律 length / 2 - 1</span></span></pre></td></tr><tr><td class="code"><pre><span class="line">        adjustHeap(arrays, i, length);</span></pre></td></tr><tr><td class="code"><pre><span class="line">    &#125;</span></pre></td></tr><tr><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="code"><pre><span class="line">    <span class="comment">//每次把堆顶元素与末尾元素交换，堆减少一个元素，直到遍历完成</span></span></pre></td></tr><tr><td class="code"><pre><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = length - <span class="number">1</span>; i &gt; <span class="number">0</span>; i--) &#123;</span></pre></td></tr><tr><td class="code"><pre><span class="line">        <span class="comment">//交换堆顶元素,与末尾元素</span></span></pre></td></tr><tr><td class="code"><pre><span class="line">        swap(arrays, <span class="number">0</span>, i);</span></pre></td></tr><tr><td class="code"><pre><span class="line">        <span class="comment">//重新构建大顶堆</span></span></pre></td></tr><tr><td class="code"><pre><span class="line">        adjustHeap(arrays, <span class="number">0</span>, i);</span></pre></td></tr><tr><td class="code"><pre><span class="line">    &#125;</span></pre></td></tr><tr><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="code"><pre><span class="line">    <span class="keyword">return</span> arrays;</span></pre></td></tr><tr><td class="code"><pre><span class="line">&#125;</span></pre></td></tr><tr><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="code"><pre><span class="line"><span class="comment">/**</span></span></pre></td></tr><tr><td class="code"><pre><span class="line"><span class="comment"> * 堆排序核心 - 调整 大顶堆</span></span></pre></td></tr><tr><td class="code"><pre><span class="line"><span class="comment"> */</span></span></pre></td></tr><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">adjustHeap</span><span class="params">(<span class="keyword">int</span>[] arrays, <span class="keyword">int</span> i, <span class="keyword">int</span> length)</span> </span>&#123;</span></pre></td></tr><tr><td class="code"><pre><span class="line">    <span class="keyword">int</span> temp = arrays[i];<span class="comment">//临时存储 i 对应元素</span></span></pre></td></tr><tr><td class="code"><pre><span class="line">    <span class="comment">//每次选取指定节点的左节点进行比较</span></span></pre></td></tr><tr><td class="code"><pre><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> k = <span class="number">2</span> * i + <span class="number">1</span>; k &lt; length; k = <span class="number">2</span> * k + <span class="number">1</span>) &#123;</span></pre></td></tr><tr><td class="code"><pre><span class="line">        <span class="comment">//比较左右节点大小，右节点大选择右节点作为比较对象</span></span></pre></td></tr><tr><td class="code"><pre><span class="line">        <span class="keyword">if</span> (k + <span class="number">1</span> &lt; length &amp;&amp; arrays[k] &lt; arrays[k + <span class="number">1</span>]) &#123;</span></pre></td></tr><tr><td class="code"><pre><span class="line">            k++;</span></pre></td></tr><tr><td class="code"><pre><span class="line">        &#125;</span></pre></td></tr><tr><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="code"><pre><span class="line">        <span class="comment">//比较和temp元素的大小, 若temp小则被换掉</span></span></pre></td></tr><tr><td class="code"><pre><span class="line">        <span class="comment">// 因为每次比较的都是temp，k位置元素不用改变，最后再改变即可</span></span></pre></td></tr><tr><td class="code"><pre><span class="line">        <span class="keyword">if</span> (arrays[k] &gt; temp) &#123;</span></pre></td></tr><tr><td class="code"><pre><span class="line">            arrays[i] = arrays[k];</span></pre></td></tr><tr><td class="code"><pre><span class="line">            i = k;<span class="comment">//i直接用来存储每次交换后新的k的位置</span></span></pre></td></tr><tr><td class="code"><pre><span class="line">        &#125;</span></pre></td></tr><tr><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="code"><pre><span class="line">    &#125;</span></pre></td></tr><tr><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="code"><pre><span class="line">    <span class="comment">//最终i的值确定以后把临时temp存进去，完成大顶堆的调整</span></span></pre></td></tr><tr><td class="code"><pre><span class="line">    arrays[i] = temp;</span></pre></td></tr><tr><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="code"><pre><span class="line">&#125;</span></pre></td></tr><tr><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">swap</span><span class="params">(<span class="keyword">int</span>[] array, <span class="keyword">int</span> i, <span class="keyword">int</span> j)</span> </span>&#123;</span></pre></td></tr><tr><td class="code"><pre><span class="line">    <span class="keyword">int</span> temp = array[i];</span></pre></td></tr><tr><td class="code"><pre><span class="line">    array[i] = array[j];</span></pre></td></tr><tr><td class="code"><pre><span class="line">    array[j] = temp;</span></pre></td></tr><tr><td class="code"><pre><span class="line">&#125;</span></pre></td></tr></table></figure>
+
+<p>关于时间复杂度：堆排序的时间复杂度三种情况都是O(nLog n)</p>
+<ol>
+<li>首先分析核心代码 adjustHeap 中的时间复杂度 2的m次方等于n，执行次数也就是 （log n） 次</li>
+<li>然后分析heapSort 两个for循环实际上是 nLog n + nLog n<br>综上时间复杂度是 O(nLog n)</li>
+</ol>
+<h4 id="计数排序-amp-桶排序"><a href="#计数排序-amp-桶排序" class="headerlink" title="计数排序&amp;桶排序"></a>计数排序&amp;桶排序</h4><p>计数排序是一种特殊的桶排序，他们的思想是一致的，都是借助开辟新的内存空间进行排序</p>
+<h5 id="计数排序"><a href="#计数排序" class="headerlink" title="计数排序"></a>计数排序</h5><p>先来看简单的计数排序实现思路</p>
+<ol>
+<li>遍历原数组，找出最大和最小元素，根据最大和最小元素创建 计数数组 bucketArray 容量，相当于min、min+1、min+2··· max 所有元素都有对应位置</li>
+<li>遍历原数组，记录每一个元素出现次数，存入 bucketArray 中，这里有一个前提条件，在存入次数的时候实际上已经把顺序确定了</li>
+<li>创建新的数组 dstArray，用于存放排序后的元素</li>
+<li>此时如果把bucketArray中次数大于0的位置，找到srcArrays中对应的值，依次插入 dstArray n次就是有序序列了，下面转换成代码思路<ol>
+<li>遍历 bucketArray 数组，重新计算每一项的值等于它的值加上前一项的值，这就意味着按照步骤3的思路，任意值在 dstArray 中的最大可能位置就确定了。</li>
+<li>遍历原数组，根据 bucketArray[i]确定插入位置，之后 bucketArray[i]– , 下次重复数据就会插入到后一个位置</li>
+</ol>
+</li>
+</ol>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">int</span>[] countingSort(<span class="keyword">int</span>[] arrays) &#123;</span></pre></td></tr><tr><td class="code"><pre><span class="line">    <span class="keyword">if</span> (arrays == <span class="keyword">null</span> || arrays.length &lt;= <span class="number">1</span>) &#123;</span></pre></td></tr><tr><td class="code"><pre><span class="line">        <span class="keyword">return</span> arrays;</span></pre></td></tr><tr><td class="code"><pre><span class="line">    &#125;</span></pre></td></tr><tr><td class="code"><pre><span class="line">    <span class="keyword">int</span> min = arrays[<span class="number">0</span>], max = arrays[<span class="number">0</span>];</span></pre></td></tr><tr><td class="code"><pre><span class="line">    <span class="keyword">int</span> srcLength = arrays.length;</span></pre></td></tr><tr><td class="code"><pre><span class="line">    <span class="comment">//遍历找到最大值和最小值</span></span></pre></td></tr><tr><td class="code"><pre><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> temp : arrays) &#123;</span></pre></td></tr><tr><td class="code"><pre><span class="line">        max = Math.max(temp, max);</span></pre></td></tr><tr><td class="code"><pre><span class="line">        min = Math.min(temp, min);</span></pre></td></tr><tr><td class="code"><pre><span class="line">    &#125;</span></pre></td></tr><tr><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="code"><pre><span class="line">    <span class="comment">//构建计数数组</span></span></pre></td></tr><tr><td class="code"><pre><span class="line">    <span class="keyword">int</span> bucketLength = max - min + <span class="number">1</span>;</span></pre></td></tr><tr><td class="code"><pre><span class="line">    <span class="keyword">int</span>[] bucketArray = <span class="keyword">new</span> <span class="keyword">int</span>[bucketLength];</span></pre></td></tr><tr><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="code"><pre><span class="line">    <span class="comment">//再次遍历原数组，找出元素重复数量</span></span></pre></td></tr><tr><td class="code"><pre><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> array : arrays) &#123;</span></pre></td></tr><tr><td class="code"><pre><span class="line">        bucketArray[array - min]++;</span></pre></td></tr><tr><td class="code"><pre><span class="line">    &#125;</span></pre></td></tr><tr><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="code"><pre><span class="line">    <span class="comment">//每一项与前一项叠加</span></span></pre></td></tr><tr><td class="code"><pre><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">1</span>; i &lt; bucketLength; i++) &#123;</span></pre></td></tr><tr><td class="code"><pre><span class="line">        bucketArray[i] += bucketArray[i - <span class="number">1</span>];</span></pre></td></tr><tr><td class="code"><pre><span class="line">    &#125;</span></pre></td></tr><tr><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="code"><pre><span class="line">    <span class="comment">//开始再次遍历原数组</span></span></pre></td></tr><tr><td class="code"><pre><span class="line">    <span class="keyword">int</span>[] dstArray = <span class="keyword">new</span> <span class="keyword">int</span>[srcLength];</span></pre></td></tr><tr><td class="code"><pre><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = srcLength - <span class="number">1</span>; i &gt;= <span class="number">0</span>; i--) &#123;</span></pre></td></tr><tr><td class="code"><pre><span class="line">        <span class="keyword">int</span> target = arrays[i];</span></pre></td></tr><tr><td class="code"><pre><span class="line">        <span class="comment">//计算得到当前元素之前又多少个元素</span></span></pre></td></tr><tr><td class="code"><pre><span class="line">        <span class="keyword">int</span> bucketIndex = target - min;</span></pre></td></tr><tr><td class="code"><pre><span class="line">        <span class="keyword">int</span> index = bucketArray[bucketIndex] - <span class="number">1</span>;</span></pre></td></tr><tr><td class="code"><pre><span class="line">        dstArray[index] = target;</span></pre></td></tr><tr><td class="code"><pre><span class="line">        bucketArray[bucketIndex]--;</span></pre></td></tr><tr><td class="code"><pre><span class="line">    &#125;</span></pre></td></tr><tr><td class="code"><pre><span class="line">    <span class="keyword">return</span> dstArray;</span></pre></td></tr><tr><td class="code"><pre><span class="line">&#125;</span></pre></td></tr></table></figure>
+
+<p>计数排序的时间复杂度是O(n),但是他更适用于序列不大比较集中的情况。因为要开辟额外的存储空间，所以数据比较分散的时候就不适合了，会浪费空间</p>
+<h5 id="桶排序"><a href="#桶排序" class="headerlink" title="桶排序"></a>桶排序</h5><p>桶排序也需要开辟新的存储空间，可以使用链表型数据结构来实现，java里更常用的是ArrayList</p>
+<p>实现思路：</p>
+<ol>
+<li>找到序列最大最小值，将最大最小值之间的范围进行 n 等分，这个可以自行决定，一般来说n越大排序越快，但是消耗空间更多</li>
+<li>遍历序列，计算应该插入桶中哪个位置</li>
+<li>遍历桶，每一项中元素进行排序</li>
+<li>将桶中所有子序列取出来，拼接起来就是有序序列</li>
+</ol>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"> <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">bucketSort</span><span class="params">(<span class="keyword">int</span>[] arrays)</span> </span>&#123;</span></pre></td></tr><tr><td class="code"><pre><span class="line">    <span class="keyword">int</span> min = arrays[<span class="number">0</span>], max = arrays[<span class="number">0</span>];</span></pre></td></tr><tr><td class="code"><pre><span class="line">    <span class="keyword">int</span> srcLength = arrays.length;</span></pre></td></tr><tr><td class="code"><pre><span class="line">    <span class="comment">//遍历找到最大值和最小值</span></span></pre></td></tr><tr><td class="code"><pre><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> temp : arrays) &#123;</span></pre></td></tr><tr><td class="code"><pre><span class="line">        max = Math.max(temp, max);</span></pre></td></tr><tr><td class="code"><pre><span class="line">        min = Math.min(temp, min);</span></pre></td></tr><tr><td class="code"><pre><span class="line">    &#125;</span></pre></td></tr><tr><td class="code"><pre><span class="line">    <span class="comment">//也可以使用别的分组方式</span></span></pre></td></tr><tr><td class="code"><pre><span class="line">    <span class="keyword">int</span> bucketSize = (max - min) / srcLength + <span class="number">1</span>;</span></pre></td></tr><tr><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="code"><pre><span class="line">    <span class="comment">//构建桶</span></span></pre></td></tr><tr><td class="code"><pre><span class="line">    List&lt;ArrayList&lt;Integer&gt;&gt; bucketList = <span class="keyword">new</span> ArrayList&lt;&gt;();</span></pre></td></tr><tr><td class="code"><pre><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; bucketSize; i++) &#123;</span></pre></td></tr><tr><td class="code"><pre><span class="line">        bucketList.add(<span class="keyword">new</span> ArrayList&lt;&gt;());</span></pre></td></tr><tr><td class="code"><pre><span class="line">    &#125;</span></pre></td></tr><tr><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="code"><pre><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> array : arrays) &#123;</span></pre></td></tr><tr><td class="code"><pre><span class="line">        <span class="keyword">int</span> index = (array - min) / srcLength;</span></pre></td></tr><tr><td class="code"><pre><span class="line">        bucketList.get(index).add(array);</span></pre></td></tr><tr><td class="code"><pre><span class="line">    &#125;</span></pre></td></tr><tr><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="code"><pre><span class="line">    <span class="comment">//对桶中元素进行排序</span></span></pre></td></tr><tr><td class="code"><pre><span class="line">    <span class="keyword">for</span> (ArrayList&lt;Integer&gt; item : bucketList) &#123;</span></pre></td></tr><tr><td class="code"><pre><span class="line">        <span class="keyword">if</span> (!item.isEmpty())&#123;</span></pre></td></tr><tr><td class="code"><pre><span class="line">            <span class="comment">//使用官方API，也可以根据需要使用别的排序法</span></span></pre></td></tr><tr><td class="code"><pre><span class="line">            Collections.sort(item);</span></pre></td></tr><tr><td class="code"><pre><span class="line">        &#125;</span></pre></td></tr><tr><td class="code"><pre><span class="line">    &#125;</span></pre></td></tr><tr><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="code"><pre><span class="line">    System.out.println(<span class="string">"bucket arrays: "</span> + bucketList.toString());</span></pre></td></tr><tr><td class="code"><pre><span class="line">&#125;</span></pre></td></tr></table></figure>
+
+<p>时间复杂度分析：</p>
+<p>最好情况：O(n)，一般n分的越多时间复杂度越低，但是空间消耗越高</p>
+<p>如果n设定合理，时间复杂度就取决于桶中子序列排序的时间复杂度了应该是 n * O(f(n))</p>
+<h3 id="未完待续"><a href="#未完待续" class="headerlink" title="未完待续"></a>未完待续</h3><h3 id="待补充"><a href="#待补充" class="headerlink" title="待补充"></a>待补充</h3><p>由于理解不透彻暂不记录，但是标记以防以往。</p>
 <ul>
 <li>希尔排序</li>
 <li>快速排序的多种思路</li>
@@ -108,17 +163,20 @@
 <h4 id="参考文献"><a href="#参考文献" class="headerlink" title="参考文献"></a>参考文献</h4><ol>
 <li><a href="https://www.cnblogs.com/onepixel/p/7674659.html" target="_blank" rel="noopener">十大经典排序算法（动图演示）</a></li>
 <li><a href="https://www.cnblogs.com/chengxiao/p/6104371.html" target="_blank" rel="noopener">图解排序算法-希尔排序</a></li>
+<li><a href="https://www.cnblogs.com/chengxiao/p/6129630.html" target="_blank" rel="noopener">图解排序算法-堆排序</a></li>
 </ol>
 <h4 id="Log"><a href="#Log" class="headerlink" title="Log"></a>Log</h4><ul>
+<li>20200321 新增堆排序</li>
 <li>20200314 新增快速排序</li>
 <li>20200311 创建本文，新增冒泡排序、选择排序、插入排序、归并排序</li>
 </ul>
 ]]></content>
       <categories>
-        <category>算法</category>
+        <category>CS</category>
       </categories>
       <tags>
-        <tag>基础算法</tag>
+        <tag>算法</tag>
+        <tag>排序算法</tag>
       </tags>
   </entry>
   <entry>
@@ -148,9 +206,10 @@
 <p>时间复杂度是O(n)</p>
 ]]></content>
       <categories>
-        <category>算法</category>
+        <category>CS</category>
       </categories>
       <tags>
+        <tag>算法</tag>
         <tag>LeetCode</tag>
       </tags>
   </entry>
@@ -185,9 +244,10 @@
 <h4 id="解法二："><a href="#解法二：" class="headerlink" title="解法二："></a>解法二：</h4><p>考虑思路是递归，但是还没想到，待补充！！！</p>
 ]]></content>
       <categories>
-        <category>算法</category>
+        <category>CS</category>
       </categories>
       <tags>
+        <tag>算法</tag>
         <tag>LeetCode</tag>
       </tags>
   </entry>

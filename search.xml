@@ -172,10 +172,9 @@
 </ul>
 ]]></content>
       <categories>
-        <category>CS</category>
+        <category>算法</category>
       </categories>
       <tags>
-        <tag>算法</tag>
         <tag>排序算法</tag>
       </tags>
   </entry>
@@ -206,10 +205,9 @@
 <p>时间复杂度是O(n)</p>
 ]]></content>
       <categories>
-        <category>CS</category>
+        <category>算法</category>
       </categories>
       <tags>
-        <tag>算法</tag>
         <tag>LeetCode</tag>
       </tags>
   </entry>
@@ -244,10 +242,9 @@
 <h4 id="解法二："><a href="#解法二：" class="headerlink" title="解法二："></a>解法二：</h4><p>考虑思路是递归，但是还没想到，待补充！！！</p>
 ]]></content>
       <categories>
-        <category>CS</category>
+        <category>算法</category>
       </categories>
       <tags>
-        <tag>算法</tag>
         <tag>LeetCode</tag>
       </tags>
   </entry>

@@ -1,6 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>andrpod_requestlyaout_improperly</title>
+    <url>/2020/04/10/andrpod-requestlyaout-improperly/</url>
+    <content><![CDATA[<p>最近在项目里发现一个关于AppBarLayout 滑动监听异常，就是监听它的滑动事件时，控制台一直在抛如下异常：</p>
+<blockquote>
+<p>W/View: requestLayout() improperly called by android.view.View{df595e9 V.ED….. …….. 0,726-1080,726 #7f0902d8 app:id/statusBarSpace} during second layout pass: posting in next frame<br>W/View: requestLayout() improperly called by com.google.android.material.appbar.AppBarLayout{e6dac58 V.E…… ……I. 0,0-1080,789 #7f090070 app:id/bar} during layout: running second layout pass</p>
+</blockquote>
+<a id="more"></a>
+
+<p>引发原因暂时不清楚，但是根据查询资料，发现只要滚动变化一致的时候不要做处理就能解决了解决代码如下：</p>
+<figure class="highlight kotlin"><table><tr><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="code"><pre><span class="line">bar.addOnOffsetChangedListener(<span class="keyword">object</span> : AppBarLayout.OnOffsetChangedListener&#123;</span></pre></td></tr><tr><td class="code"><pre><span class="line">            <span class="keyword">var</span> lastOffset = -<span class="number">1</span></span></pre></td></tr><tr><td class="code"><pre><span class="line">            <span class="keyword">override</span> <span class="function"><span class="keyword">fun</span> <span class="title">onOffsetChanged</span><span class="params">(appBarLayout: <span class="type">AppBarLayout</span>?, verticalOffset: <span class="type">Int</span>)</span></span> &#123;</span></pre></td></tr><tr><td class="code"><pre><span class="line">                <span class="keyword">if</span> (lastOffset == verticalOffset)&#123;</span></pre></td></tr><tr><td class="code"><pre><span class="line">                    <span class="keyword">return</span></span></pre></td></tr><tr><td class="code"><pre><span class="line">                &#125;</span></pre></td></tr><tr><td class="code"><pre><span class="line">                lastOffset = verticalOffset</span></pre></td></tr><tr><td class="code"><pre><span class="line">                </span></pre></td></tr><tr><td class="code"><pre><span class="line">                \\ 下面写业务代码即可</span></pre></td></tr><tr><td class="code"><pre><span class="line">            &#125;</span></pre></td></tr><tr><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="code"><pre><span class="line">        &#125;)</span></pre></td></tr></table></figure>
+]]></content>
+      <categories>
+        <category>android</category>
+      </categories>
+      <tags>
+        <tag>异常处理</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>LeetCode 无重复字符的最长子串</title>
     <url>/2020/03/30/leetcode-03-longest-substring-without-repeating-characters/</url>
     <content><![CDATA[<p><a href="https://leetcode-cn.com/problems/longest-substring-without-repeating-characters/" target="_blank" rel="noopener">无重复字符的最长子串</a></p>

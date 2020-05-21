@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
-    <title>leetcode-633-judge-square-sum</title>
+    <title>LeetCode 平方数之和</title>
     <url>/2020/05/21/leetcode-633-judge-square-sum/</url>
     <content><![CDATA[<p><a href="https://leetcode-cn.com/problems/sum-of-square-numbers/" target="_blank" rel="noopener">平方数之和</a></p>
 <blockquote>
@@ -46,8 +46,8 @@
       </tags>
   </entry>
   <entry>
-    <title>andrpod_requestlyaout_improperly</title>
-    <url>/2020/04/10/andrpod-requestlyaout-improperly/</url>
+    <title>AppBarLayout 滑动监听异常：requestLayout() improperly called by android.view.View</title>
+    <url>/2020/04/10/android-request-layout-improperly/</url>
     <content><![CDATA[<p>最近在项目里发现一个关于AppBarLayout 滑动监听异常，就是监听它的滑动事件时，控制台一直在抛如下异常：</p>
 <blockquote>
 <p>W/View: requestLayout() improperly called by android.view.View{df595e9 V.ED….. …….. 0,726-1080,726 #7f0902d8 app:id/statusBarSpace} during second layout pass: posting in next frame<br>W/View: requestLayout() improperly called by com.google.android.material.appbar.AppBarLayout{e6dac58 V.E…… ……I. 0,0-1080,789 #7f090070 app:id/bar} during layout: running second layout pass</p>
@@ -142,8 +142,8 @@
         <category>LeetCode专栏</category>
       </categories>
       <tags>
-        <tag>动态规划</tag>
         <tag>todo</tag>
+        <tag>动态规划</tag>
       </tags>
   </entry>
   <entry>
@@ -394,8 +394,8 @@
         <category>LeetCode专栏</category>
       </categories>
       <tags>
-        <tag>todo</tag>
         <tag>链表</tag>
+        <tag>todo</tag>
       </tags>
   </entry>
 </search>

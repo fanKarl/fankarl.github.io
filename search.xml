@@ -1,6 +1,58 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>Android RecyclerView 解析 大纲篇</title>
+    <url>/2020/05/25/android-recyclerview-summary/</url>
+    <content><![CDATA[<p>RecyclerView 是 Android 中使用最多的控件之一，因此利用 RV 写出高质量的代码或者对老项目进行性能优化 可能大大提升app 性能，因此了解RecyclerView的性能就很有必要。</p>
+<a id="more"></a>
+
+<p>首先我们用一张 RecyclerView 的思维导图来直观的了解它的架构：</p>
+<p>//todo: [图片]</p>
+<h3 id="前置知识点"><a href="#前置知识点" class="headerlink" title="前置知识点"></a>前置知识点</h3><p>RecyclerView 是 ViewGroup 的，因此Android View的绘制流程和事件分发机制同样适用于它，除此之外还需要了解设计模式相关的知识。以下前置知识点可以自行Google搜索或者查看我相关文章(TODO)</p>
+<ul>
+<li>View 绘制流程<ul>
+<li>onMeasure</li>
+<li>onLayout</li>
+<li>onDraw</li>
+<li>requestLayout &amp; invalidate</li>
+</ul>
+</li>
+<li>View 事件分发机制<ul>
+<li>onTouchEvent</li>
+</ul>
+</li>
+<li>设计模式<ul>
+<li>适配器模式</li>
+<li>桥接模式</li>
+<li>观察者模式</li>
+</ul>
+</li>
+</ul>
+<h3 id="RecyclerView-架构"><a href="#RecyclerView-架构" class="headerlink" title="RecyclerView 架构"></a>RecyclerView 架构</h3><p>在了解了前置知识点后，我们来看一下 RecyclerView 的架构，通常我们自定义 ViewGoup 的时候 子View(itemView) 的大小、位置、甚至数据模型都是大致确定的，因此可以直接写到对应实现处。但是想想列表的使用场景，我们发现，要实现一个RecyclerView，它既不知道子View大小会是多少、位置摆放在哪里，也不知道填充的数据源模型是什么样的。</p>
+<p>那么问题来了，一个什么规则都不知道的控件要怎么定义呢？RecyclerView 给了一个很好的解答。总结起来可以说就是一句话，只要提供一套行之有效的规则，以后都按照这套规则实现就可以了，怎么说？</p>
+<ol>
+<li>不知道子View的大小和摆放？那就约定一个LayoutManager，由它去管理 itemView 的绘制，同时提供了三个已经实现的LayoutManager类，事实上这三种LayoutManager已经足以应付大部分开发需求。</li>
+<li>不清楚数据源模型？那就借助适配器模式，提供一个Adapter来将数据源转换成 RecyclerView可使用的 ViewHolder 填充视图</li>
+<li>为了优雅和美观，RecyclerView还提供了可以自定义动画和装饰的方法，只要实现 ItemAnimator、ItemDecoration即可</li>
+</ol>
+<p>下面我会分具体几篇文章对 RecyclerView 进行拆解：</p>
+<ul>
+<li>[RecyclerView 布局绘制 LayoutManager]</li>
+<li>[RecyclerView 缓存复用 Recycler]</li>
+<li>[RecyclerView 滑动场景分析]</li>
+<li>[RecyclerView 装饰类 itemDecoration]</li>
+<li>[itemAnmiator]</li>
+</ul>
+]]></content>
+      <categories>
+        <category>Android</category>
+        <category>组件拆解</category>
+      </categories>
+      <tags>
+        <tag>RecyclerView</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>LeetCode 平方数之和</title>
     <url>/2020/05/21/leetcode-633-judge-square-sum/</url>
     <content><![CDATA[<p><a href="https://leetcode-cn.com/problems/sum-of-square-numbers/" target="_blank" rel="noopener">平方数之和</a></p>
@@ -142,8 +194,8 @@
         <category>LeetCode专栏</category>
       </categories>
       <tags>
-        <tag>todo</tag>
         <tag>动态规划</tag>
+        <tag>todo</tag>
       </tags>
   </entry>
   <entry>
@@ -394,8 +446,8 @@
         <category>LeetCode专栏</category>
       </categories>
       <tags>
-        <tag>链表</tag>
         <tag>todo</tag>
+        <tag>链表</tag>
       </tags>
   </entry>
 </search>

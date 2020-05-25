@@ -7,7 +7,7 @@
 <a id="more"></a>
 
 <p>首先我们用一张 RecyclerView 的思维导图来直观的了解它的架构：</p>
-<p>![RecyclerView 思维导图](<img src="http://coderfan.codeagles.com/android-recyclerview-summary.png?e=1590401969&token=o8sDcknnEJ98Lnr_NdIO1uHPhg5-4QGXgAevZD23:LQtWWpAmrOpKsNShBL00AE0Pjlk=" alt="RecyyclerView 思维导图">))</p>
+<p><img src="http://coderfan.codeagles.com/android-recyclerview-summary.png?e=1590401969&token=o8sDcknnEJ98Lnr_NdIO1uHPhg5-4QGXgAevZD23:LQtWWpAmrOpKsNShBL00AE0Pjlk=" alt="RecyyclerView 思维导图"></p>
 <h3 id="前置知识点"><a href="#前置知识点" class="headerlink" title="前置知识点"></a>前置知识点</h3><p>RecyclerView 是 ViewGroup 的，因此Android View的绘制流程和事件分发机制同样适用于它，除此之外还需要了解设计模式相关的知识。以下前置知识点可以自行Google搜索或者查看我相关文章(TODO)</p>
 <ul>
 <li>View 绘制流程<ul>
@@ -93,8 +93,8 @@
         <category>LeetCode专栏</category>
       </categories>
       <tags>
-        <tag>todo</tag>
         <tag>二分查找</tag>
+        <tag>todo</tag>
       </tags>
   </entry>
   <entry>
@@ -194,8 +194,8 @@
         <category>LeetCode专栏</category>
       </categories>
       <tags>
-        <tag>动态规划</tag>
         <tag>todo</tag>
+        <tag>动态规划</tag>
       </tags>
   </entry>
   <entry>

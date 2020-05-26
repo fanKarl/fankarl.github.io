@@ -164,8 +164,8 @@
 <h4 id="方法三：费马平方和定理"><a href="#方法三：费马平方和定理" class="headerlink" title="方法三：费马平方和定理"></a>方法三：费马平方和定理</h4><p>费马平方和 这个涉及到知识盲区了，没看懂，待补充</p>
 ]]></content>
       <categories>
-        <category>算法</category>
-        <category>LeetCode专栏</category>
+        <category>Algorithm</category>
+        <category>LeetCode</category>
       </categories>
       <tags>
         <tag>todo</tag>
@@ -185,7 +185,7 @@
 <figure class="highlight kotlin"><table><tr><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="code"><pre><span class="line">bar.addOnOffsetChangedListener(<span class="keyword">object</span> : AppBarLayout.OnOffsetChangedListener&#123;</span></pre></td></tr><tr><td class="code"><pre><span class="line">            <span class="keyword">var</span> lastOffset = -<span class="number">1</span></span></pre></td></tr><tr><td class="code"><pre><span class="line">            <span class="keyword">override</span> <span class="function"><span class="keyword">fun</span> <span class="title">onOffsetChanged</span><span class="params">(appBarLayout: <span class="type">AppBarLayout</span>?, verticalOffset: <span class="type">Int</span>)</span></span> &#123;</span></pre></td></tr><tr><td class="code"><pre><span class="line">                <span class="keyword">if</span> (lastOffset == verticalOffset)&#123;</span></pre></td></tr><tr><td class="code"><pre><span class="line">                    <span class="keyword">return</span></span></pre></td></tr><tr><td class="code"><pre><span class="line">                &#125;</span></pre></td></tr><tr><td class="code"><pre><span class="line">                lastOffset = verticalOffset</span></pre></td></tr><tr><td class="code"><pre><span class="line">                </span></pre></td></tr><tr><td class="code"><pre><span class="line">                \\ 下面写业务代码即可</span></pre></td></tr><tr><td class="code"><pre><span class="line">            &#125;</span></pre></td></tr><tr><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="code"><pre><span class="line">        &#125;)</span></pre></td></tr></table></figure>
 ]]></content>
       <categories>
-        <category>android</category>
+        <category>Android</category>
       </categories>
       <tags>
         <tag>异常处理</tag>
@@ -226,8 +226,8 @@
 <p>PS: 之所以选择hashMap 是因为它存取数据的时间复杂度是O(1)，即使最差也是O(n)</p>
 ]]></content>
       <categories>
-        <category>算法</category>
-        <category>LeetCode专栏</category>
+        <category>Algorithm</category>
+        <category>LeetCode</category>
       </categories>
       <tags>
         <tag>字符串</tag>
@@ -265,8 +265,8 @@
 <h4 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h4><p><a href="https://www.cxyxiaowu.com/2869.html" target="_blank" rel="noopener">LeetCode 第五题 最长回文子串</a></p>
 ]]></content>
       <categories>
-        <category>算法</category>
-        <category>LeetCode专栏</category>
+        <category>Algorithm</category>
+        <category>LeetCode</category>
       </categories>
       <tags>
         <tag>todo</tag>
@@ -445,7 +445,7 @@
 </ul>
 ]]></content>
       <categories>
-        <category>算法</category>
+        <category>Algorithm</category>
       </categories>
       <tags>
         <tag>todo</tag>
@@ -479,8 +479,8 @@
 <p>时间复杂度是O(n)</p>
 ]]></content>
       <categories>
-        <category>算法</category>
-        <category>LeetCode 专栏</category>
+        <category>Algorithm</category>
+        <category>LeetCode</category>
       </categories>
       <tags>
         <tag>数组</tag>
@@ -517,8 +517,8 @@
 <h4 id="解法二："><a href="#解法二：" class="headerlink" title="解法二："></a>解法二：</h4><p>考虑思路是递归，但是还没想到，待补充！！！</p>
 ]]></content>
       <categories>
-        <category>算法</category>
-        <category>LeetCode专栏</category>
+        <category>Algorithm</category>
+        <category>LeetCode</category>
       </categories>
       <tags>
         <tag>链表</tag>

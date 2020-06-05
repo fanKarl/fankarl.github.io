@@ -1,6 +1,145 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>Java 线程池</title>
+    <url>/2020/06/05/java-thread-pool/</url>
+    <content><![CDATA[<h3 id="1-线程池"><a href="#1-线程池" class="headerlink" title="1. 线程池"></a>1. 线程池</h3><p>线程池就是一个池子容器，用于存储我们创建的线程，方便管理和复用线程。</p>
+<p>线程池适用场景是：1.任务执行时间短 2. 任务数量大，执行频繁 的情况</p>
+<p>相对于直接创建线程，它具有以下优势：</p>
+<ol>
+<li>减少线程的创建于销毁带来的开销<ol>
+<li>减少时间成本开销，提高响应速度</li>
+<li>减少系统资源开销，避免过度消耗资源，过早耗尽资源</li>
+</ol>
+</li>
+<li>把线程统一放在池子里，方便管理和监控</li>
+<li>线程的创建和任务的提交是分开进行的，解耦合，提高了扩展性，可以自由定义一些功能，比如定时、延时、周期等</li>
+</ol>
+<p>了解了使用线程池的场景和优势，下面我们看一下线程池的使用</p>
+<a id="more"></a>
+
+<h3 id="2-线程池的使用"><a href="#2-线程池的使用" class="headerlink" title="2. 线程池的使用"></a>2. 线程池的使用</h3><p>线程池相关的类在JDK提供的JUC中，不论是通过 Executors 还是自定义 ThreadPoolExecutor 创建，实际上都是围绕下图中的类展开的。</p>
+<p><img src="http://coderfan.codeagles.com/java-executor.png" alt="Executor"></p>
+<ul>
+<li>Executor 类提供了任务执行的 execute(runnable) 抽象方法</li>
+<li>ExecutorService 在 Executor 基础上新增了线程管理相关函数，同时也是通过 ThreadPoolExecutor 实现的对象实例</li>
+<li>ThreadPoolExecutor 是使用线程池的关键类，我们可以通过它配置所需参数，下面会进行详细讲解。</li>
+</ul>
+<p>了解了类的继承关系，我们来看一下使用 Executor 所需要掌握的知识点，如思维导图所示：</p>
+<p><img src="http://coderfan.codeagles.com/java-thread-pool-basic.png" alt="java 线程池的使用"></p>
+<h4 id="2-1-创建"><a href="#2-1-创建" class="headerlink" title="2.1 创建"></a>2.1 创建</h4><p>线程池的创建有两种方式，Executors 创建和自定义 ThreadPoolExecutor,而 Executors所提供的默认实现实际也是对创建 ThreadPoolExecutor的封装，所以我们直接来看如何直接创建线程池</p>
+<h5 id="ThreadPoolExecutor"><a href="#ThreadPoolExecutor" class="headerlink" title="ThreadPoolExecutor"></a>ThreadPoolExecutor</h5><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">public ThreadPoolExecutor(int corePoolSize,</span></pre></td></tr><tr><td class="code"><pre><span class="line">                              int maximumPoolSize,</span></pre></td></tr><tr><td class="code"><pre><span class="line">                              long keepAliveTime,</span></pre></td></tr><tr><td class="code"><pre><span class="line">                              TimeUnit unit,</span></pre></td></tr><tr><td class="code"><pre><span class="line">                              BlockingQueue&lt;Runnable&gt; workQueue,</span></pre></td></tr><tr><td class="code"><pre><span class="line">                              ThreadFactory threadFactory,</span></pre></td></tr><tr><td class="code"><pre><span class="line">                              RejectedExecutionHandler handler) &#123;....&#125;</span></pre></td></tr></table></figure>
+<p>ThreadPoolExecutor 构造函数中就是针对线程池的配置</p>
+<ul>
+<li>corePoolSize，核心线程池数，可以根据自己需要设置，一般根据CPU数进行合理配置，比如 CPU*2</li>
+<li>maximumPoolSize，线程池最大线程数</li>
+<li>keepAliveTime &amp; unit 线程池工作线程 空闲之后最长等待时间，超时之后要被回收</li>
+<li>workQueue，线程池阻塞队列，当线程池核心线程满了，需要把等待线程放入阻塞队列中。阻塞队列是线程安全的，有三种阻塞队列<ul>
+<li>直接切换队列，synchronousQueue，该队了每次只允许进入一个任务，该任务被取出以后允许下一个任务入队</li>
+<li>有界队列，比如 ArrayBlockingQueue，有界队列意思就是初始化的时候队列容量就已经确定，不可改变</li>
+<li>无界队列，比如LinkedBlockingQueue，关于链表阻塞队列网上有说它可以是有界队列也可以是无界队列。但是我个人倾向于认定它就是无界队列。首先无界队列的意思就是没有边界，计算机中到达上限MAX_VALUE。但是如果只是设定MAX_VALUE不能说是无界，更重要的是该队列可以手动扩容的，这是它不同于数组阻塞队列的地方，数组队列一旦设定一个值就不可变了。</li>
+</ul>
+</li>
+<li>ThreadFactory，该方法是可以自行创建线程的工厂抽象类，方便我们在创建线程的同时做一些额外的操作。</li>
+<li>handler：RejectedExecutionHandler，任务拒绝策略，当线程池不再接收新任务的时候执行的策略，主要有以下几种策略选择，我们可以根据需要选择策略模式<ul>
+<li>AbortPolicy, 该策略直接抛出异常，属于默认策略</li>
+<li>CallerRunsPolicy，在调用者所在线程执行任务</li>
+<li>DiscardOldestPolicy，直接丢弃队列头部的最旧的任务</li>
+<li>DiscardPolicy，直接丢弃该任务</li>
+</ul>
+</li>
+</ul>
+<h5 id="Executors-newXXXThreadPool"><a href="#Executors-newXXXThreadPool" class="headerlink" title="Executors.newXXXThreadPool"></a>Executors.newXXXThreadPool</h5><p>了解了 ThreadPoolExecutor 的构造函数，我们可以根据 Executors 提供的newXXXThreadPool()系列方法来了解 ExecutorService 的创建</p>
+<p>Executors 一共提供了 5 种线程池<br><img src="http://coderfan.codeagles.com/java-thread-pool-categories.png" alt="常用线程池"></p>
+<h6 id="newCachedThreadPool"><a href="#newCachedThreadPool" class="headerlink" title="newCachedThreadPool()"></a>newCachedThreadPool()</h6><p>这种线程池 corePoolSize =0，maximumPoolSize = MAX_VALUE， 也就是说它没有核心线程，全都是工作线程，线程空闲时间是 60s，也就是说如果没有空闲线程就创建新线程执行任务，如果有空闲线程，超过60s就进行回收。这种线程使用的阻塞队列就是第一种直接切换队列</p>
+<h6 id="newFixedThreadPool"><a href="#newFixedThreadPool" class="headerlink" title="newFixedThreadPool()"></a>newFixedThreadPool()</h6><p>这种 线程池 corePoolSize 和 maximumPoolSize 都是固定的，可以在创建的时候指定，这也就意味着没有工作线程，新任务要么交给核心线程执行，要么在阻塞队列进行等待，或者直接被拒绝。没有工作线程自然空闲等待时间设置0即可，它使用的是无界队列 LinkedBlockingQueue</p>
+<h6 id="newSingleThreadPool"><a href="#newSingleThreadPool" class="headerlink" title="newSingleThreadPool()"></a>newSingleThreadPool()</h6><p>newSingleThreadPool相当于newFixedThreadPool的极端，它只允许一个核心线程，没有工作线程，空闲等待时间为0，使用无界队列</p>
+<h6 id="newScheduledThreadPool"><a href="#newScheduledThreadPool" class="headerlink" title="newScheduledThreadPool()"></a>newScheduledThreadPool()</h6><p>newScheduledThreadPool 创建需要借助 ThreadPoolExecutor 的子类 ScheduledThreadPoolExecutor，它的核心线程数也是需要指定，工作线程数是MAX_VALUE，工作线程空闲等待时长10ms，另外它所用队列是 DelayedWorkQueue，这个队列我还没研究，不多介绍了。</p>
+<h4 id="2-2-执行"><a href="#2-2-执行" class="headerlink" title="2.2 执行"></a>2.2 执行</h4><p>执行线程池有一个唯一的方法，就是 Executor.execute(runnable),线程池的任务管理、线程管理、状态维护都从这里开始。在后面会详细介绍</p>
+<h4 id="2-3-关闭"><a href="#2-3-关闭" class="headerlink" title="2.3 关闭"></a>2.3 关闭</h4><p>ExecutorService提供了两种关闭线程池的方法，shutdown() 和 shuatdownNow(),他们都能关闭线程池，但是是有区别的</p>
+<ul>
+<li>调用shutdown()，阻塞队列不再接收新的任务，但是会继续执行正在进行和阻塞队列中缓存的任务</li>
+<li>调用 shuatdownNow()，不仅不再接收新任务，也会立即终止所有正在执行的任务，队列中的任务也不再执行。</li>
+</ul>
+<h4 id="2-4-监控"><a href="#2-4-监控" class="headerlink" title="2.4 监控"></a>2.4 监控</h4><p>线程池还提供了一系列监控方法，都在思维导图中有说明，比较简单，这里不再赘述。</p>
+<h3 id="3-ThreadPoolExecutor"><a href="#3-ThreadPoolExecutor" class="headerlink" title="3. ThreadPoolExecutor"></a>3. ThreadPoolExecutor</h3><p>看完了线程池的使用，我们来看一下 ThreadPoolExecutor，线程池设计比较好的地方就是对任务和线程进行了解耦，因此 ThreadPoolExecutor也可以分为三部分来看，任务管理、线程管理、线程池状态维护,如图所示</p>
+<p><img src="http://coderfan.codeagles.com/java-thread-pool-executor.png" alt="ThreadPoolExecutor"></p>
+<h4 id="3-1-状态维护"><a href="#3-1-状态维护" class="headerlink" title="3.1 状态维护"></a>3.1 状态维护</h4><p>线程池通过 runstate（运行状态） 和 workerCount（线程数量）来记录线程池状态，但是为了方便管理，使用32位二进制数字进行记录，其中高三位用于记录runState，低29位用来记录workerCount</p>
+<p>线程状态一共有五种：RUNNING、SHUTDOWN、STOP、TIDYING、TERMINATED</p>
+<p>他们执行流程我从参考文献借一张图来展示</p>
+<p><img src="http://coderfan.codeagles.com/java-thread-pool-state.png" alt="runState"></p>
+<ul>
+<li>任务的执行都是在 RUNNING 状态下执行的</li>
+<li>当调用shutdown()，会进入SHUTDOWN 状态，当阻塞队列为空，工作线程为0，进入下一状态</li>
+<li>调用 shutdownNow()，进入STOP状态，当工作线程为0 进入下一状态</li>
+<li>SHUTDOWN 和 STOP 结束后都会进入 TIDYING 状态，此时有效线程数为0</li>
+<li>最后状态是TERMINATED，此时所有任务都已经结束，也可以通过调用terminated()方法进入该状态</li>
+</ul>
+<h4 id="3-2-任务管理"><a href="#3-2-任务管理" class="headerlink" title="3.2 任务管理"></a>3.2 任务管理</h4><h5 id="任务调度"><a href="#任务调度" class="headerlink" title="任务调度"></a>任务调度</h5><p>任务调度 execute(runable)是线程池的主要入口</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">execute</span><span class="params">(Runnable command)</span> </span>&#123;</span></pre></td></tr><tr><td class="code"><pre><span class="line">    <span class="keyword">if</span> (command == <span class="keyword">null</span>)</span></pre></td></tr><tr><td class="code"><pre><span class="line">        <span class="keyword">throw</span> <span class="keyword">new</span> NullPointerException();</span></pre></td></tr><tr><td class="code"><pre><span class="line">   </span></pre></td></tr><tr><td class="code"><pre><span class="line">    <span class="keyword">int</span> c = ctl.get();</span></pre></td></tr><tr><td class="code"><pre><span class="line">    <span class="keyword">if</span> (workerCountOf(c) &lt; corePoolSize) &#123;</span></pre></td></tr><tr><td class="code"><pre><span class="line">        <span class="keyword">if</span> (addWorker(command, <span class="keyword">true</span>))</span></pre></td></tr><tr><td class="code"><pre><span class="line">            <span class="keyword">return</span>;</span></pre></td></tr><tr><td class="code"><pre><span class="line">        c = ctl.get();</span></pre></td></tr><tr><td class="code"><pre><span class="line">    &#125;</span></pre></td></tr><tr><td class="code"><pre><span class="line">    <span class="keyword">if</span> (isRunning(c) &amp;&amp; workQueue.offer(command)) &#123;</span></pre></td></tr><tr><td class="code"><pre><span class="line">        <span class="keyword">int</span> recheck = ctl.get();</span></pre></td></tr><tr><td class="code"><pre><span class="line">        <span class="keyword">if</span> (! isRunning(recheck) &amp;&amp; remove(command))</span></pre></td></tr><tr><td class="code"><pre><span class="line">            reject(command);</span></pre></td></tr><tr><td class="code"><pre><span class="line">        <span class="keyword">else</span> <span class="keyword">if</span> (workerCountOf(recheck) == <span class="number">0</span>)</span></pre></td></tr><tr><td class="code"><pre><span class="line">            addWorker(<span class="keyword">null</span>, <span class="keyword">false</span>);</span></pre></td></tr><tr><td class="code"><pre><span class="line">    &#125;</span></pre></td></tr><tr><td class="code"><pre><span class="line">    <span class="keyword">else</span> <span class="keyword">if</span> (!addWorker(command, <span class="keyword">false</span>))</span></pre></td></tr><tr><td class="code"><pre><span class="line">        reject(command);</span></pre></td></tr><tr><td class="code"><pre><span class="line">&#125;</span></pre></td></tr></table></figure>
+
+<p>大致执行流程是：</p>
+<ol>
+<li>检查状态，判断是否是正在运行状态，如果是继续提交新任务,否则执行拒绝策略</li>
+<li>检查核心线程数<ol>
+<li>workerCount &lt; corePoolSize, 新建一个核心线程执行任务</li>
+<li>workerCount &gt;= corePoolSize, 执行下一步</li>
+</ol>
+</li>
+<li>检查队列<ol>
+<li>队列未满，加入阻塞队列，等待线程提取</li>
+<li>队列已满，检查最大线程数，符合corePoolSize &lt;= workerCount &lt; maximumPoolSize，创建工作线程，否则执行拒绝策略</li>
+</ol>
+</li>
+</ol>
+<p>在代码中可以看出来，每次要新建线程都会执行addWorker方法，这里先记下来。</p>
+<h5 id="任务缓冲"><a href="#任务缓冲" class="headerlink" title="任务缓冲"></a>任务缓冲</h5><p>线程池的核心功能就是管理任务，可以对任务进行缓存。它需要借助BlockingQueue来实现。BlockingQueue相比普通 队列主要多了两个操作：</p>
+<ol>
+<li>队列为空的时候，线程获取任务需要等待，直到队列非空</li>
+<li>队列满的时候，线程需要等待队列可用再提交任务</li>
+</ol>
+<h5 id="任务申请"><a href="#任务申请" class="headerlink" title="任务申请"></a>任务申请</h5><p>每次提交新任务有两种方式执行：</p>
+<ol>
+<li>直接创建新线程执行，一般线程初始创建的时候采用该方法。创建线程借助 addWorker方法，我们稍后介绍。</li>
+<li>放入缓存队列，等待线程取出后执行。线程执行完成以后会继续从队列取任务，也就实现了线程复用。</li>
+</ol>
+<h5 id="任务拒绝"><a href="#任务拒绝" class="headerlink" title="任务拒绝"></a>任务拒绝</h5><p>任务拒绝是在线程池拒绝接受新任务的时候执行，一般是核心线程已满、阻塞队列已满、最大线程已满情况下触发。具体可使用策略前面已经说过，不再赘述</p>
+<h4 id="3-3-线程管理-Worker"><a href="#3-3-线程管理-Worker" class="headerlink" title="3.3 线程管理-Worker"></a>3.3 线程管理-Worker</h4><p>前面说到线程增加需要用到addWorker().这里我们看一下它的源码:</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">boolean</span> <span class="title">addWorker</span><span class="params">(Runnable firstTask, <span class="keyword">boolean</span> core)</span> </span>&#123;</span></pre></td></tr><tr><td class="code"><pre><span class="line">    retry:</span></pre></td></tr><tr><td class="code"><pre><span class="line">    <span class="keyword">for</span> (;;) &#123;</span></pre></td></tr><tr><td class="code"><pre><span class="line">        <span class="keyword">int</span> c = ctl.get();</span></pre></td></tr><tr><td class="code"><pre><span class="line">        <span class="keyword">int</span> rs = runStateOf(c);</span></pre></td></tr><tr><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="code"><pre><span class="line">        <span class="comment">/**</span></span></pre></td></tr><tr><td class="code"><pre><span class="line"><span class="comment">         * 1. 检查运行状态,只要不是 RUNNING 状态就直接 return</span></span></pre></td></tr><tr><td class="code"><pre><span class="line"><span class="comment">         * 2. 检查队列是否为空、firstTask是否为空</span></span></pre></td></tr><tr><td class="code"><pre><span class="line"><span class="comment">         **/</span></span></pre></td></tr><tr><td class="code"><pre><span class="line">        <span class="keyword">if</span> (rs &gt;= SHUTDOWN &amp;&amp;</span></pre></td></tr><tr><td class="code"><pre><span class="line">            ! (rs == SHUTDOWN &amp;&amp;</span></pre></td></tr><tr><td class="code"><pre><span class="line">               firstTask == <span class="keyword">null</span> &amp;&amp;</span></pre></td></tr><tr><td class="code"><pre><span class="line">               ! workQueue.isEmpty()))</span></pre></td></tr><tr><td class="code"><pre><span class="line">            <span class="keyword">return</span> <span class="keyword">false</span>;</span></pre></td></tr><tr><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="code"><pre><span class="line">        <span class="comment">//检查线程数量</span></span></pre></td></tr><tr><td class="code"><pre><span class="line">        <span class="keyword">for</span> (;;) &#123;</span></pre></td></tr><tr><td class="code"><pre><span class="line">            <span class="keyword">int</span> wc = workerCountOf(c);</span></pre></td></tr><tr><td class="code"><pre><span class="line">            <span class="keyword">if</span> (wc &gt;= CAPACITY ||</span></pre></td></tr><tr><td class="code"><pre><span class="line">                wc &gt;= (core ? corePoolSize : maximumPoolSize))</span></pre></td></tr><tr><td class="code"><pre><span class="line">                <span class="keyword">return</span> <span class="keyword">false</span>;</span></pre></td></tr><tr><td class="code"><pre><span class="line">            <span class="keyword">if</span> (compareAndIncrementWorkerCount(c))</span></pre></td></tr><tr><td class="code"><pre><span class="line">                <span class="keyword">break</span> retry;</span></pre></td></tr><tr><td class="code"><pre><span class="line">            c = ctl.get();  <span class="comment">// Re-read ctl</span></span></pre></td></tr><tr><td class="code"><pre><span class="line">            <span class="keyword">if</span> (runStateOf(c) != rs)</span></pre></td></tr><tr><td class="code"><pre><span class="line">                <span class="keyword">continue</span> retry;</span></pre></td></tr><tr><td class="code"><pre><span class="line">            <span class="comment">// else CAS failed due to workerCount change; retry inner loop</span></span></pre></td></tr><tr><td class="code"><pre><span class="line">        &#125;</span></pre></td></tr><tr><td class="code"><pre><span class="line">    &#125;</span></pre></td></tr><tr><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="code"><pre><span class="line">    <span class="keyword">boolean</span> workerStarted = <span class="keyword">false</span>;</span></pre></td></tr><tr><td class="code"><pre><span class="line">    <span class="keyword">boolean</span> workerAdded = <span class="keyword">false</span>;</span></pre></td></tr><tr><td class="code"><pre><span class="line">    Worker w = <span class="keyword">null</span>;</span></pre></td></tr><tr><td class="code"><pre><span class="line">    <span class="keyword">try</span> &#123;</span></pre></td></tr><tr><td class="code"><pre><span class="line">        <span class="comment">//下面是新建Worker，Worker中保存线程</span></span></pre></td></tr><tr><td class="code"><pre><span class="line">        w = <span class="keyword">new</span> Worker(firstTask);</span></pre></td></tr><tr><td class="code"><pre><span class="line">        <span class="keyword">final</span> Thread t = w.thread;</span></pre></td></tr><tr><td class="code"><pre><span class="line">        <span class="keyword">if</span> (t != <span class="keyword">null</span>) &#123;</span></pre></td></tr><tr><td class="code"><pre><span class="line">            <span class="comment">//...省略代码...</span></span></pre></td></tr><tr><td class="code"><pre><span class="line">            <span class="keyword">if</span> (workerAdded) &#123;</span></pre></td></tr><tr><td class="code"><pre><span class="line">                t.start();</span></pre></td></tr><tr><td class="code"><pre><span class="line">                workerStarted = <span class="keyword">true</span>;</span></pre></td></tr><tr><td class="code"><pre><span class="line">            &#125;</span></pre></td></tr><tr><td class="code"><pre><span class="line">        &#125;</span></pre></td></tr><tr><td class="code"><pre><span class="line">    &#125; <span class="keyword">finally</span> &#123;</span></pre></td></tr><tr><td class="code"><pre><span class="line">        <span class="keyword">if</span> (! workerStarted)</span></pre></td></tr><tr><td class="code"><pre><span class="line">            addWorkerFailed(w);</span></pre></td></tr><tr><td class="code"><pre><span class="line">    &#125;</span></pre></td></tr><tr><td class="code"><pre><span class="line">    <span class="keyword">return</span> workerStarted;</span></pre></td></tr><tr><td class="code"><pre><span class="line">&#125;</span></pre></td></tr></table></figure>
+
+<p>addWorker中先是进行一系列检查，检查runState、检查线程数量、检查阻塞队列，之后才真正开始创建线程，创建线程就用到了线程管理的核心类WorkerWorker是线程池内的工作线程，实际是一个封装类，它内部维护了一个对应的Thread，方便线程池掌握线程的状态。</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"> <span class="keyword">private</span> <span class="keyword">final</span> <span class="class"><span class="keyword">class</span> <span class="title">Worker</span> <span class="keyword">extends</span> <span class="title">AbstractQueuedSynchronizer</span> <span class="keyword">implements</span> <span class="title">Runnable</span> </span>&#123;</span></pre></td></tr><tr><td class="code"><pre><span class="line">        <span class="keyword">final</span> Thread thread;</span></pre></td></tr><tr><td class="code"><pre><span class="line">        Runnable firstTask;</span></pre></td></tr><tr><td class="code"><pre><span class="line">        <span class="keyword">volatile</span> <span class="keyword">long</span> completedTasks;</span></pre></td></tr><tr><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="code"><pre><span class="line">        Worker(Runnable firstTask) &#123;</span></pre></td></tr><tr><td class="code"><pre><span class="line">            setState(-<span class="number">1</span>); <span class="comment">// inhibit interrupts until runWorker</span></span></pre></td></tr><tr><td class="code"><pre><span class="line">            <span class="keyword">this</span>.firstTask = firstTask;</span></pre></td></tr><tr><td class="code"><pre><span class="line">            <span class="keyword">this</span>.thread = getThreadFactory().newThread(<span class="keyword">this</span>);</span></pre></td></tr><tr><td class="code"><pre><span class="line">        &#125;</span></pre></td></tr><tr><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="code"><pre><span class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</span></pre></td></tr><tr><td class="code"><pre><span class="line">            runWorker(<span class="keyword">this</span>);</span></pre></td></tr><tr><td class="code"><pre><span class="line">        &#125;</span></pre></td></tr><tr><td class="code"><pre><span class="line">&#125;</span></pre></td></tr></table></figure>
+
+<p>从 worker的部分代码可以发现，他实现了Runnable类，内部持有Thread的引用。</p>
+<ul>
+<li>构造函数显示 Thread的引用是通过 getThreadFactory().newThread(this) 实现的ThreadFactory 可以用默认提供的也可以我们自定义实现。</li>
+<li>关于firstTask，允许为空。如果创建worker的时候，firstTask不为空，则线程创建后可以直接执行它，也就对应核心线程创建时的情况。如果firstTask为空，则线程创建后去阻塞队列取任务执行，对应的就是非核心线程的创建。</li>
+</ul>
+<p>然后我们来一下 run()方法的具体实现 runWorker(this)</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">final</span> <span class="keyword">void</span> <span class="title">runWorker</span><span class="params">(Worker w)</span> </span>&#123;</span></pre></td></tr><tr><td class="code"><pre><span class="line">    Thread wt = Thread.currentThread();</span></pre></td></tr><tr><td class="code"><pre><span class="line">    Runnable task = w.firstTask;</span></pre></td></tr><tr><td class="code"><pre><span class="line">    w.firstTask = <span class="keyword">null</span>;</span></pre></td></tr><tr><td class="code"><pre><span class="line">    w.unlock(); <span class="comment">// allow interrupts</span></span></pre></td></tr><tr><td class="code"><pre><span class="line">    <span class="keyword">boolean</span> completedAbruptly = <span class="keyword">true</span>;</span></pre></td></tr><tr><td class="code"><pre><span class="line">    <span class="keyword">try</span> &#123;</span></pre></td></tr><tr><td class="code"><pre><span class="line">        <span class="keyword">while</span> (task != <span class="keyword">null</span> || (task = getTask()) != <span class="keyword">null</span>) &#123;</span></pre></td></tr><tr><td class="code"><pre><span class="line">            w.lock();</span></pre></td></tr><tr><td class="code"><pre><span class="line">            </span></pre></td></tr><tr><td class="code"><pre><span class="line">            <span class="keyword">if</span> ((runStateAtLeast(ctl.get(), STOP) ||</span></pre></td></tr><tr><td class="code"><pre><span class="line">                 (Thread.interrupted() &amp;&amp;</span></pre></td></tr><tr><td class="code"><pre><span class="line">                  runStateAtLeast(ctl.get(), STOP))) &amp;&amp;</span></pre></td></tr><tr><td class="code"><pre><span class="line">                !wt.isInterrupted())</span></pre></td></tr><tr><td class="code"><pre><span class="line">                wt.interrupt();</span></pre></td></tr><tr><td class="code"><pre><span class="line">            <span class="keyword">try</span> &#123;</span></pre></td></tr><tr><td class="code"><pre><span class="line">                beforeExecute(wt, task);</span></pre></td></tr><tr><td class="code"><pre><span class="line">                Throwable thrown = <span class="keyword">null</span>;</span></pre></td></tr><tr><td class="code"><pre><span class="line">                <span class="keyword">try</span> &#123;</span></pre></td></tr><tr><td class="code"><pre><span class="line">                    task.run();</span></pre></td></tr><tr><td class="code"><pre><span class="line">                &#125; <span class="comment">//...异常处理...</span></span></pre></td></tr><tr><td class="code"><pre><span class="line">            &#125; <span class="keyword">finally</span> &#123;</span></pre></td></tr><tr><td class="code"><pre><span class="line">                task = <span class="keyword">null</span>;</span></pre></td></tr><tr><td class="code"><pre><span class="line">                w.completedTasks++;</span></pre></td></tr><tr><td class="code"><pre><span class="line">                w.unlock();</span></pre></td></tr><tr><td class="code"><pre><span class="line">            &#125;</span></pre></td></tr><tr><td class="code"><pre><span class="line">        &#125;</span></pre></td></tr><tr><td class="code"><pre><span class="line">        completedAbruptly = <span class="keyword">false</span>;</span></pre></td></tr><tr><td class="code"><pre><span class="line">    &#125; <span class="keyword">finally</span> &#123;</span></pre></td></tr><tr><td class="code"><pre><span class="line">        processWorkerExit(w, completedAbruptly);</span></pre></td></tr><tr><td class="code"><pre><span class="line">    &#125;</span></pre></td></tr><tr><td class="code"><pre><span class="line">&#125;</span></pre></td></tr></table></figure>
+
+<p>代码逻辑很清晰：</p>
+<ol>
+<li>while循环判断 firstTask不为空或者，getTask 不为空进入循环。</li>
+<li>循环中 先判断线程状态，判断是否需要interrupt</li>
+<li>task.run() 执行任务</li>
+<li>while循环结束 getTask为null，执行processWorkerExit(w, completedAbruptly)结束线程</li>
+</ol>
+<p>以上关于线程池的任务管理、线程管理和运行状态就介绍完了，中间省略了很多细节，比如线程锁、运行状态的切换等等，这个以后有时间再补充</p>
+<h3 id="参考文献"><a href="#参考文献" class="headerlink" title="参考文献"></a>参考文献</h3><ol>
+<li><a href="https://tech.meituan.com/2020/04/02/java-pooling-pratice-in-meituan.html" target="_blank" rel="noopener">Java线程池实现原理及其在美团业务中的实践</a></li>
+<li><a href="https://juejin.im/entry/58fada5d570c350058d3aaad" target="_blank" rel="noopener">深入理解 Java 线程池：ThreadPoolExecutor</a></li>
+<li><a href="https://crossoverjie.top/2018/07/29/java-senior/ThreadPool/" target="_blank" rel="noopener">如何优雅的使用和理解线程池</a></li>
+</ol>
+]]></content>
+      <categories>
+        <category>Java</category>
+      </categories>
+      <tags>
+        <tag>线程池</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Android Recyclerview 原理解析(一) 布局绘制 &amp; Layoutmanager</title>
     <url>/2020/05/26/android-recyclerview-layoutmanager/</url>
     <content><![CDATA[<p>LayoutManager 是RecyclerView中的布局管理类，用于管理 itemView的布局，官方默认提供了三种实现：线性布局 LinearLayoutManager、网格布局 GridLayoutManager和 流式布局 StaggeredGridLayoutManager，本篇主要依据 LinearLayout 源码进行解析。</p>

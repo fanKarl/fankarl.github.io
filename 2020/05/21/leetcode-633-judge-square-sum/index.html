@@ -17,7 +17,7 @@
   <meta name="description" content="Android技术博客">
   <meta name="author" content="fkk">
   <meta name="keywords" content="android">
-  <title>LeetCode 平方数之和 - Karl&#39;s Blog</title>
+  <title>LeetCode 平方数之和 - CoderFan</title>
 
   <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" />
 
@@ -40,9 +40,13 @@
 
 
 <!-- 主题依赖的图标库，不要自行修改 -->
+
 <link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
 
+
+
 <link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_kmeydafke9r.css">
+
 
 <link  rel="stylesheet" href="/css/main.css" />
 
@@ -55,7 +59,7 @@
   </script>
   <script  src="/js/utils.js" ></script>
   <script  src="/js/color-schema.js" ></script>
-</head>
+<meta name="generator" content="Hexo 4.2.1"></head>
 
 
 <body>
@@ -63,7 +67,7 @@
     <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
   <div class="container">
     <a class="navbar-brand"
-       href="/">&nbsp;<strong>Fluid</strong>&nbsp;</a>
+       href="/">&nbsp;<strong>CoderFan</strong>&nbsp;</a>
 
     <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
             data-target="#navbarSupportedContent"
@@ -143,7 +147,7 @@
         
         
           <li class="nav-item" id="color-toggle-btn">
-            <a class="nav-link" href="javascript:" target="_blank" rel="noopener">&nbsp;<i
+            <a class="nav-link" href="javascript:">&nbsp;<i
                 class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
           </li>
         
@@ -180,7 +184,7 @@
     
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      749 字
+      719 字
     </span>
   
 
@@ -238,7 +242,7 @@
 <li>理论来说 m 开平方得到的就是b，但是需要判断 m 是不是一个平方数，也就是 b的二次方取值是不是正好等于m</li>
 <li>找到符合条件的 b 即可返回 true，循环结束没有符合条件，返回false</li>
 </ol>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">boolean</span> <span class="hljs-title">judgeSquareSum</span><span class="hljs-params">(<span class="hljs-keyword">int</span> c)</span> </span>&#123;</code></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><code class="hljs java">    <span class="hljs-keyword">int</span> sqrt = (<span class="hljs-keyword">int</span>) Math.sqrt(c);</code></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><code class="hljs java"></code></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><code class="hljs java">    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> i = <span class="hljs-number">0</span>; i &lt;= sqrt; i++) &#123;</code></pre></td></tr><tr><td class="gutter"><pre><span class="line">5</span></pre></td><td class="code"><pre><code class="hljs java">        <span class="hljs-keyword">int</span> m = c - i * i;</code></pre></td></tr><tr><td class="gutter"><pre><span class="line">6</span></pre></td><td class="code"><pre><code class="hljs java">        <span class="hljs-keyword">int</span> a = (<span class="hljs-keyword">int</span>) Math.sqrt(m);</code></pre></td></tr><tr><td class="gutter"><pre><span class="line">7</span></pre></td><td class="code"><pre><code class="hljs java">        <span class="hljs-keyword">if</span> (a * a == m)&#123;</code></pre></td></tr><tr><td class="gutter"><pre><span class="line">8</span></pre></td><td class="code"><pre><code class="hljs java">            <span class="hljs-keyword">return</span> <span class="hljs-keyword">true</span>;</code></pre></td></tr><tr><td class="gutter"><pre><span class="line">9</span></pre></td><td class="code"><pre><code class="hljs java">        &#125;</code></pre></td></tr><tr><td class="gutter"><pre><span class="line">10</span></pre></td><td class="code"><pre><code class="hljs java">    &#125;</code></pre></td></tr><tr><td class="gutter"><pre><span class="line">11</span></pre></td><td class="code"><pre><code class="hljs java">    <span class="hljs-keyword">return</span> <span class="hljs-keyword">false</span>;</code></pre></td></tr><tr><td class="gutter"><pre><span class="line">12</span></pre></td><td class="code"><pre><code class="hljs java">&#125;</code></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">boolean</span> <span class="hljs-title">judgeSquareSum</span><span class="hljs-params">(<span class="hljs-keyword">int</span> c)</span> </span>&#123;<br>    <span class="hljs-keyword">int</span> sqrt = (<span class="hljs-keyword">int</span>) Math.sqrt(c);<br><br>    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> i = <span class="hljs-number">0</span>; i &lt;= sqrt; i++) &#123;<br>        <span class="hljs-keyword">int</span> m = c - i * i;<br>        <span class="hljs-keyword">int</span> a = (<span class="hljs-keyword">int</span>) Math.sqrt(m);<br>        <span class="hljs-keyword">if</span> (a * a == m)&#123;<br>            <span class="hljs-keyword">return</span> <span class="hljs-keyword">true</span>;<br>        &#125;<br>    &#125;<br>    <span class="hljs-keyword">return</span> <span class="hljs-keyword">false</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
 
 <p>这种解法的时间复杂度是 O(n)，测试结果：超过 22% 的提交，显然是低效的，而且需要借助 Math 相关API，更不完美了。</p>
 <h4 id="解法二：二分查找法"><a href="#解法二：二分查找法" class="headerlink" title="解法二：二分查找法"></a>解法二：二分查找法</h4><p>如果不借助 Math API，那么我们就得扩大搜索范围，a 取值从0 开始直到平方值大于 c 为止，然后差值就是 b 的目标平方值，而要寻找 是否有符合条件的 b，可以用到二分查找方法，思路如下：</p>
@@ -250,7 +254,7 @@
 <li>如果比 m 小，说明中值太小，去大的范围找 [start,mid-1]</li>
 <li>设定终止条件，如果 start 已经大于 end 了，那就返回false</li>
 </ol>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">boolean</span> <span class="hljs-title">judgeSquareSum2</span><span class="hljs-params">(<span class="hljs-keyword">int</span> c)</span> </span>&#123;</code></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><code class="hljs java"></code></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><code class="hljs java">    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">long</span> a = <span class="hljs-number">0</span>; a * a &lt;= c; a++) &#123;</code></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><code class="hljs java">        <span class="hljs-keyword">int</span> m = c - (<span class="hljs-keyword">int</span>) (a * a);</code></pre></td></tr><tr><td class="gutter"><pre><span class="line">5</span></pre></td><td class="code"><pre><code class="hljs java">        <span class="hljs-keyword">if</span> (binarySearch(<span class="hljs-number">0</span>, m, m)) &#123;</code></pre></td></tr><tr><td class="gutter"><pre><span class="line">6</span></pre></td><td class="code"><pre><code class="hljs java">            <span class="hljs-keyword">return</span> <span class="hljs-keyword">true</span>;</code></pre></td></tr><tr><td class="gutter"><pre><span class="line">7</span></pre></td><td class="code"><pre><code class="hljs java">        &#125;</code></pre></td></tr><tr><td class="gutter"><pre><span class="line">8</span></pre></td><td class="code"><pre><code class="hljs java">    &#125;</code></pre></td></tr><tr><td class="gutter"><pre><span class="line">9</span></pre></td><td class="code"><pre><code class="hljs java">    <span class="hljs-keyword">return</span> <span class="hljs-keyword">false</span>;</code></pre></td></tr><tr><td class="gutter"><pre><span class="line">10</span></pre></td><td class="code"><pre><code class="hljs java">&#125;</code></pre></td></tr><tr><td class="gutter"><pre><span class="line">11</span></pre></td><td class="code"><pre><code class="hljs java"></code></pre></td></tr><tr><td class="gutter"><pre><span class="line">12</span></pre></td><td class="code"><pre><code class="hljs java"></code></pre></td></tr><tr><td class="gutter"><pre><span class="line">13</span></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">boolean</span> <span class="hljs-title">binarySearch</span><span class="hljs-params">(<span class="hljs-keyword">long</span> start, <span class="hljs-keyword">long</span> end, <span class="hljs-keyword">int</span> m)</span> </span>&#123;</code></pre></td></tr><tr><td class="gutter"><pre><span class="line">14</span></pre></td><td class="code"><pre><code class="hljs java">    <span class="hljs-keyword">if</span> (start &gt; end) &#123;</code></pre></td></tr><tr><td class="gutter"><pre><span class="line">15</span></pre></td><td class="code"><pre><code class="hljs java">        <span class="hljs-keyword">return</span> <span class="hljs-keyword">false</span>;</code></pre></td></tr><tr><td class="gutter"><pre><span class="line">16</span></pre></td><td class="code"><pre><code class="hljs java">    &#125;</code></pre></td></tr><tr><td class="gutter"><pre><span class="line">17</span></pre></td><td class="code"><pre><code class="hljs java"></code></pre></td></tr><tr><td class="gutter"><pre><span class="line">18</span></pre></td><td class="code"><pre><code class="hljs java">    <span class="hljs-keyword">long</span> mid = (start + end) / <span class="hljs-number">2</span>;</code></pre></td></tr><tr><td class="gutter"><pre><span class="line">19</span></pre></td><td class="code"><pre><code class="hljs java">    <span class="hljs-keyword">if</span> (mid * mid == m) &#123;</code></pre></td></tr><tr><td class="gutter"><pre><span class="line">20</span></pre></td><td class="code"><pre><code class="hljs java">        <span class="hljs-keyword">return</span> <span class="hljs-keyword">true</span>;</code></pre></td></tr><tr><td class="gutter"><pre><span class="line">21</span></pre></td><td class="code"><pre><code class="hljs java">    &#125;</code></pre></td></tr><tr><td class="gutter"><pre><span class="line">22</span></pre></td><td class="code"><pre><code class="hljs java"></code></pre></td></tr><tr><td class="gutter"><pre><span class="line">23</span></pre></td><td class="code"><pre><code class="hljs java">    <span class="hljs-keyword">if</span> (mid * mid &gt; m) &#123;</code></pre></td></tr><tr><td class="gutter"><pre><span class="line">24</span></pre></td><td class="code"><pre><code class="hljs java">        <span class="hljs-keyword">return</span> binarySearch(start, mid - <span class="hljs-number">1</span>, m);</code></pre></td></tr><tr><td class="gutter"><pre><span class="line">25</span></pre></td><td class="code"><pre><code class="hljs java">    &#125;</code></pre></td></tr><tr><td class="gutter"><pre><span class="line">26</span></pre></td><td class="code"><pre><code class="hljs java"></code></pre></td></tr><tr><td class="gutter"><pre><span class="line">27</span></pre></td><td class="code"><pre><code class="hljs java">    <span class="hljs-keyword">return</span> binarySearch(mid + <span class="hljs-number">1</span>, end, m);</code></pre></td></tr><tr><td class="gutter"><pre><span class="line">28</span></pre></td><td class="code"><pre><code class="hljs java">&#125;</code></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">boolean</span> <span class="hljs-title">judgeSquareSum2</span><span class="hljs-params">(<span class="hljs-keyword">int</span> c)</span> </span>&#123;<br><br>    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">long</span> a = <span class="hljs-number">0</span>; a * a &lt;= c; a++) &#123;<br>        <span class="hljs-keyword">int</span> m = c - (<span class="hljs-keyword">int</span>) (a * a);<br>        <span class="hljs-keyword">if</span> (binarySearch(<span class="hljs-number">0</span>, m, m)) &#123;<br>            <span class="hljs-keyword">return</span> <span class="hljs-keyword">true</span>;<br>        &#125;<br>    &#125;<br>    <span class="hljs-keyword">return</span> <span class="hljs-keyword">false</span>;<br>&#125;<br><br><br><span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">boolean</span> <span class="hljs-title">binarySearch</span><span class="hljs-params">(<span class="hljs-keyword">long</span> start, <span class="hljs-keyword">long</span> end, <span class="hljs-keyword">int</span> m)</span> </span>&#123;<br>    <span class="hljs-keyword">if</span> (start &gt; end) &#123;<br>        <span class="hljs-keyword">return</span> <span class="hljs-keyword">false</span>;<br>    &#125;<br><br>    <span class="hljs-keyword">long</span> mid = (start + end) / <span class="hljs-number">2</span>;<br>    <span class="hljs-keyword">if</span> (mid * mid == m) &#123;<br>        <span class="hljs-keyword">return</span> <span class="hljs-keyword">true</span>;<br>    &#125;<br><br>    <span class="hljs-keyword">if</span> (mid * mid &gt; m) &#123;<br>        <span class="hljs-keyword">return</span> binarySearch(start, mid - <span class="hljs-number">1</span>, m);<br>    &#125;<br><br>    <span class="hljs-keyword">return</span> binarySearch(mid + <span class="hljs-number">1</span>, end, m);<br>&#125;<br></code></pre></td></tr></table></figure>
 
 <p>时间复杂度：<br>首先外层循环的复杂度是：O(n), 二分查找的时间复杂度是 Logn,<br>所以总的时间复杂度应该是 nLog n</p>
 <p>二分查找，虽然提高了查询效率，但是抵不过范围太大，因此效率还不如sqrt 函数。这种方法也不完美。</p>
@@ -275,8 +279,6 @@
                     <i class="iconfont icon-tags"></i>
                     
                       <a class="hover-with-bg" href="/tags/%E4%BA%8C%E5%88%86%E6%9F%A5%E6%89%BE/">二分查找</a>
-                    
-                      <a class="hover-with-bg" href="/tags/todo/">todo</a>
                     
                   </div>
                 
